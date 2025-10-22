@@ -1,0 +1,88 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNIZMr2/bdmlnMzURL5gbLc",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/harigaran-r/Machine-learning-/blob/main/Activity%203%20-%20Decision%20Tree%20\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "zKJgvXTW5-Mg",
+        "outputId": "75b20374-5eb6-490c-fe41-de28a5cfdb8b"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "|--- Income <= 50000.00\n",
+            "|   |--- class: No\n",
+            "|--- Income >  50000.00\n",
+            "|   |--- class: Yes\n",
+            "\n",
+            "\n",
+            "Prediction for Age=31, Income=70000 → Yes\n"
+          ]
+        }
+      ],
+      "source": [
+        "\n",
+        "\n",
+        "from sklearn.tree import DecisionTreeClassifier, export_text\n",
+        "import pandas as pd\n",
+        "\n",
+        "# Step 1: Create simple dataset\n",
+        "data = {\n",
+        "    'Age': [25, 32, 47, 51, 23, 43, 36, 29],\n",
+        "    'Income': [35000, 60000, 120000, 110000, 40000, 90000, 75000, 32000],\n",
+        "    'Buys_House': ['No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'Yes', 'No']\n",
+        "}\n",
+        "\n",
+        "df = pd.DataFrame(data)\n",
+        "\n",
+        "# Step 2: Split features (X) and target (y)\n",
+        "X = df[['Age', 'Income']]\n",
+        "y = df['Buys_House']\n",
+        "\n",
+        "# Step 3: Train Decision Tree\n",
+        "model = DecisionTreeClassifier(random_state=23022)\n",
+        "model.fit(X, y)\n",
+        "\n",
+        "# Step 4: Show tree logic\n",
+        "tree_rules = export_text(model, feature_names=['Age', 'Income'])\n",
+        "print(tree_rules)\n",
+        "\n",
+        "# Step 5: Try prediction\n",
+        "test = pd.DataFrame({'Age':[31], 'Income':[70000]})\n",
+        "pred = model.predict(test)\n",
+        "print(\"\\nPrediction for Age=31, Income=70000 →\", pred[0])\n"
+      ]
+    }
+  ]
+}
